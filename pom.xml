@@ -17,10 +17,6 @@
         <!-- 1000kit -->
         <dependency>
             <groupId>org.tkit.quarkus.lib</groupId>
-            <artifactId>tkit-quarkus-data-import</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.tkit.quarkus.lib</groupId>
             <artifactId>tkit-quarkus-jpa</artifactId>
         </dependency>
         <dependency>
@@ -167,6 +163,20 @@
                         <java17>true</java17>
                     </configOptions>
                 </configuration>
+                <executions>
+                <execution>
+                    <id>internal</id>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                        <inputSpec>src/main/openapi/onecx-welcome-internal-openapi.yaml</inputSpec>
+                        <apiPackage>gen.org.tkit.onecx.welcome.rs.internal</apiPackage>
+                        <modelPackage>gen.org.tkit.onecx.welcome.rs.internal.model</modelPackage>
+                        <modelNameSuffix>DTO</modelNameSuffix>
+                    </configuration>
+                </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -183,5 +193,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

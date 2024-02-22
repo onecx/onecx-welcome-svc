@@ -1,0 +1,245 @@
+---
+openapi: 3.0.3
+info:
+  title: onecx-theme image import from file during the start of the application
+  version: 1.0.0
+servers:
+  - url: "http://onecx-theme-svc:8080"
+tags:
+  - name: imagesInternal
+paths:
+  /internal/images/info/{id}:
+    get:
+      tags:
+        - imagesInternal
+      description: get Image information by id
+      operationId: getImageInfoById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImageInfo"
+        "404":
+          description: NOT FOUND
+    put:
+      tags:
+        - imagesInternal
+      description: update Image information
+      operationId: updateImageInfo
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageInfo'
+      responses:
+        "200":
+          description: UPDATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageInfo'
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    delete:
+      tags:
+        - imagesInternal
+      description: delete image information
+      operationId: deleteImageInfoById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        "204":
+          description: DELETED
+        "404":
+          description: NOT FOUND
+  /internal/images/info:
+    post:
+      tags:
+        - imagesInternal
+      description: create image info
+      operationId: createImageInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageInfo'
+      responses:
+        "201":
+          description: CREATED
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+  /internal/images:
+    post:
+      tags:
+        - imagesInternal
+      description: create image
+      operationId: createImage
+      parameters:
+        - in: header
+          name: Content-Length
+          required: true
+          schema:
+            minimum: 1
+            maximum: 110000
+            type: integer
+      requestBody:
+        content:
+          image/*:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "201":
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    get:
+      tags:
+        - imagesInternal
+      description: get all images
+      operationId: getAllImages
+      responses:
+        "200":
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: binary
+  /internal/images/{id}:
+    get:
+      tags:
+        - imagesInternal
+      description: get Image by id
+      operationId: getImageById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        "200":
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+    put:
+      tags:
+        - imagesInternal
+      description: update Image by id
+      operationId: updateImageById
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - in: header
+          name: Content-Length
+          required: true
+          schema:
+            minimum: 1
+            maximum: 110000
+            type: integer
+      requestBody:
+        content:
+          image/*:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    delete:
+      tags:
+        - imagesInternal
+      description: delete image by id
+      operationId: deleteImageById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        "204":
+          description: NO CONTENT
+        "404":
+          description: NOT FOUND
+components:
+  schemas:
+    ImageInfo:
+      type: object
+      properties:
+        position:
+          type: string
+        visible:
+          type: boolean
+        url:
+          type: string
+        imageId:
+          type: string
+    ProblemDetailResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        detail:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailParam'
+        invalidParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailInvalidParam'
+    ProblemDetailParam:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    ProblemDetailInvalidParam:
+      type: object
+      properties:
+        name:
+          type: string
+        message:
+          type: string
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
