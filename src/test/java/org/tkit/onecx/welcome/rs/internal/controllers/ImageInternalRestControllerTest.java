@@ -23,10 +23,9 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 @TestHTTPEndpoint(ImageInternalRestController.class)
 @WithDBData(value = "data/testdata-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
-public class ImageInternalRestControllerTest extends AbstractTest {
+class ImageInternalRestControllerTest extends AbstractTest {
 
     private static final String MEDIA_TYPE_IMAGE_PNG = "image/png";
-    private static final String MEDIA_TYPE_IMAGE_JPG = "image/jpg";
 
     private static final File FILE = new File(
             Objects.requireNonNull(ImageInternalRestController.class.getResource("/images/Testimage.png")).getFile());
@@ -168,7 +167,6 @@ public class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void updateImageInfoByIdTest() {
         // get image info
-
         var data = given()
                 .contentType(APPLICATION_JSON)
                 .pathParam("id", "22-222")
@@ -293,7 +291,7 @@ public class ImageInternalRestControllerTest extends AbstractTest {
                 .contentType(APPLICATION_JSON)
                 .extract().as(ImageInfoDTO[].class);
 
-        assertThat(output.length).isEqualTo(2);
+        assertThat(output).hasSize(2);
     }
 
     @Test

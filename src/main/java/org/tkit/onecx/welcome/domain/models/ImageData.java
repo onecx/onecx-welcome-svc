@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "IMAGE_DATA")
 @Entity
+@SuppressWarnings("java:S2160")
 public class ImageData extends TraceableEntity {
 
     @TenantId
@@ -21,7 +22,7 @@ public class ImageData extends TraceableEntity {
     private String tenantId;
 
     @Column(name = "IMAGE_DATA")
-    private byte[] imageData;
+    private byte[] imageContent;
 
     @Column(name = "DATA_LENGTH")
     private Integer dataLength;

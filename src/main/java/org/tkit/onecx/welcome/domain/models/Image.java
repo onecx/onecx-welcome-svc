@@ -12,10 +12,8 @@ import lombok.Setter;
 @Setter
 @Table(name = "IMAGE")
 @Entity
-//@NamedEntityGraph(name = Image.IMAGE_FULL, includeAllAttributes = true)
+@SuppressWarnings("java:S2160")
 public class Image extends TraceableEntity {
-
-    // public static final String IMAGE_FULL = "Image.full";
 
     @TenantId
     @Column(name = "TENANT_ID")

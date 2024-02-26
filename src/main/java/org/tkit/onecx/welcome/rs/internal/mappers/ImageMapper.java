@@ -20,7 +20,7 @@ public interface ImageMapper {
     @Mapping(target = "modificationDate", ignore = true)
     @Mapping(target = "modificationCount", ignore = true)
     @Mapping(target = "mimeType", source = "contentType")
-    @Mapping(target = "imageData", source = "data")
+    @Mapping(target = "imageContent", source = "data")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "dataLength", source = "contentLength")
     @Mapping(target = "creationUser", ignore = true)
@@ -45,7 +45,7 @@ public interface ImageMapper {
 
     default ImageData update(ImageData imageToUpdate, Integer contentLength, byte[] body, String mimeType) {
         imageToUpdate.setMimeType(mimeType);
-        imageToUpdate.setImageData(body);
+        imageToUpdate.setImageContent(body);
         imageToUpdate.setDataLength(contentLength);
         return imageToUpdate;
     }
@@ -57,6 +57,7 @@ public interface ImageMapper {
     @Mapping(target = "controlTraceabilityManual", ignore = true)
     void updateInfo(@MappingTarget Image infoToUpdate, ImageInfoDTO imageInfoDTO);
 
+    @Mapping(target = "imageData", source = "imageContent")
     @Mapping(target = "imageId", source = "id")
     ImageDataResponseDTO mapResponse(ImageData image);
 
