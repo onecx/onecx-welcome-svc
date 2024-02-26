@@ -84,6 +84,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+    get:
+      tags:
+        - imagesInternal
+      description: get all existing image-infos
+      operationId: getAllImageInfos
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageInfo'
   /internal/images:
     post:
       tags:
@@ -110,28 +124,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ImageDataResponse'
         "400":
           description: BAD REQUEST
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-    get:
-      tags:
-        - imagesInternal
-      description: get all images
-      operationId: getAllImages
-      responses:
-        "200":
-          description: OK
-          content:
-            image/*:
-              schema:
-                type: array
-                items:
-                  type: string
-                  format: binary
   /internal/images/{id}:
     get:
       tags:
@@ -144,10 +143,11 @@ paths:
         "200":
           description: OK
           content:
-            image/*:
+            application/json:
               schema:
-                type: string
-                format: binary
+                $ref: '#/components/schemas/ImageDataResponse'
+        "404":
+          description: NOT FOUND
     put:
       tags:
         - imagesInternal
@@ -172,30 +172,40 @@ paths:
         "200":
           description: OK
           content:
-            image/*:
+            application/json:
               schema:
-                type: string
-                format: binary
+                $ref: '#/components/schemas/ImageDataResponse'
         "400":
           description: BAD REQUEST
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-    delete:
-      tags:
-        - imagesInternal
-      description: delete image by id
-      operationId: deleteImageById
-      parameters:
-        - $ref: '#/components/parameters/id'
-      responses:
-        "204":
-          description: NO CONTENT
-        "404":
-          description: NOT FOUND
 components:
   schemas:
+    ImageDataResponse:
+      type: object
+      properties:
+        imageId:
+          type: string
+        imageData:
+          type: string
+          format: binary
+        dataLength:
+          type: integer
+        mimeType:
+          type: string
+        modificationCount:
+          format: int32
+          type: integer
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
     ImageInfo:
       type: object
       properties:
@@ -207,6 +217,23 @@ components:
           type: string
         imageId:
           type: string
+        id:
+          type: string
+        modificationCount:
+          format: int32
+          type: integer
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+    OffsetDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50-04:00
     ProblemDetailResponse:
       type: object
       properties:

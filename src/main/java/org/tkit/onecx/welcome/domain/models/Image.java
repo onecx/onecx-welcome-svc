@@ -30,7 +30,7 @@ public class Image extends TraceableEntity {
     @Column(name = "URL")
     private String url;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "IMAGE_DATA")
     private ImageData imageDataId;
 }
