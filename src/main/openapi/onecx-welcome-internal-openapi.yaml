@@ -1,10 +1,10 @@
 ---
 openapi: 3.0.3
 info:
-  title: onecx-theme image import from file during the start of the application
+  title: onecx-welcome internal api
   version: 1.0.0
 servers:
-  - url: "http://onecx-theme-svc:8080"
+  - url: "http://onecx-welcome-svc:8080"
 tags:
   - name: imagesInternal
 paths:
