@@ -66,7 +66,8 @@ public class ImageInternalRestController implements ImagesInternalApi {
         }
         Image imageInfo = imageMapper.map(imageInfoDTO, image);
         var createdImageInfo = imageInfoDAO.create(imageInfo);
-        return Response.created(uriInfo.getAbsolutePathBuilder().path(createdImageInfo.getId()).build()).build();
+        return Response.created(uriInfo.getAbsolutePathBuilder().path(createdImageInfo.getId()).build())
+                .entity(imageMapper.map(createdImageInfo)).build();
     }
 
     @Override
