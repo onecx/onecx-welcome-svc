@@ -62,4 +62,5 @@ public interface ImageMapper {
     ImageDataResponseDTO mapResponse(ImageData image);
 
     List<ImageInfoDTO> mapInfoList(List<Image> list);
+
 }

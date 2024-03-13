@@ -78,6 +78,10 @@ paths:
       responses:
         "201":
           description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageInfo'
         "400":
           description: BAD REQUEST
           content:
