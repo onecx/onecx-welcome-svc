@@ -114,7 +114,7 @@ paths:
           required: true
           schema:
             minimum: 1
-            maximum: 110000
+            maximum: 1100000
             type: integer
       requestBody:
         content:
@@ -164,7 +164,7 @@ paths:
           required: true
           schema:
             minimum: 1
-            maximum: 110000
+            maximum: 1100000
             type: integer
       requestBody:
         content:
