@@ -297,7 +297,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void testMaxUploadSize() {
 
-        byte[] body = new byte[110001];
+        byte[] body = new byte[1100001];
         new Random().nextBytes(body);
 
         var exception = given()
@@ -311,7 +311,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         assertThat(exception.getErrorCode()).isEqualTo(CONSTRAINT_VIOLATIONS.name());
         assertThat(exception.getDetail()).isEqualTo(
-                "createImage.contentLength: must be less than or equal to 110000");
+                "createImage.contentLength: must be less than or equal to 1100000");
 
     }
 
