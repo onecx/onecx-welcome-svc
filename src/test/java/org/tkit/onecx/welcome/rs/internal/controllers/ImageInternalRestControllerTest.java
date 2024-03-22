@@ -311,7 +311,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         assertThat(exception.getErrorCode()).isEqualTo(CONSTRAINT_VIOLATIONS.name());
         assertThat(exception.getDetail()).isEqualTo(
-                "createImage.contentLength: must be less than or equal to 110000");
+                "createImage.contentLength: must be less than or equal to 1100000");
 
     }
 
