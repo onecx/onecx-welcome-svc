@@ -19,6 +19,9 @@ public class Image extends TraceableEntity {
     @Column(name = "TENANT_ID")
     private String tenantId;
 
+    @Column(name = "WORKSPACE_NAME", nullable = false, columnDefinition = "VARCHAR(255) default 'undefined'")
+    private String workspaceName;
+
     @Column(name = "POSITION")
     private Integer position;
 
