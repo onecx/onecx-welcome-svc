@@ -88,11 +88,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+  /internal/images/{workspaceName}/info:
     get:
       tags:
         - imagesInternal
       description: get all existing image-infos
-      operationId: getAllImageInfos
+      operationId: getAllImageInfosByWorkspaceName
+      parameters:
+        - in: path
+          name: workspaceName
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: OK
@@ -211,6 +218,8 @@ components:
         modificationUser:
           type: string
     ImageInfo:
+      required:
+        - workspaceName
       type: object
       properties:
         position:
@@ -233,6 +242,8 @@ components:
         modificationDate:
           $ref: '#/components/schemas/OffsetDateTime'
         modificationUser:
+          type: string
+        workspaceName:
           type: string
     OffsetDateTime:
       format: date-time

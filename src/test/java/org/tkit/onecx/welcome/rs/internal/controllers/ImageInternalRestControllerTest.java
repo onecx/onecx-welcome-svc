@@ -100,7 +100,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
                 .body().as(ImageDataResponseDTO.class);
 
         ImageInfoDTO body = new ImageInfoDTO();
-        body.imageId(imageData.getImageId()).position("2").visible(true);
+        body.imageId(imageData.getImageId()).position("2").visible(true).workspaceName("w1");
 
         given()
                 .when()
@@ -114,7 +114,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void createImageInfoExternalURLTest() {
         ImageInfoDTO body = new ImageInfoDTO();
-        body.url("randomURl").position("2").visible(true);
+        body.url("randomURl").position("2").visible(true).workspaceName("w1");
         given()
                 .when()
                 .body(body)
@@ -180,6 +180,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         var updateBody = new ImageInfoDTO();
         updateBody.url("updated-url");
         updateBody.modificationCount(0);
+        updateBody.workspaceName("w1");
 
         var updatedInfo = given()
                 .contentType(APPLICATION_JSON)
@@ -231,6 +232,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         var updateBody = new ImageInfoDTO();
         updateBody.imageId(data.getImageId());
         updateBody.modificationCount(0);
+        updateBody.workspaceName("w1");
 
         var updatedInfo = given()
                 .contentType(APPLICATION_JSON)
@@ -284,9 +286,10 @@ class ImageInternalRestControllerTest extends AbstractTest {
     }
 
     @Test
-    void getAllImageInfosTest() {
+    void getAllImageInfosByWorkspaceNameTest() {
         var output = given()
-                .get("/info")
+                .pathParam("workspaceName", "w1")
+                .get("/{workspaceName}/info")
                 .then()
                 .contentType(APPLICATION_JSON)
                 .extract().as(ImageInfoDTO[].class);

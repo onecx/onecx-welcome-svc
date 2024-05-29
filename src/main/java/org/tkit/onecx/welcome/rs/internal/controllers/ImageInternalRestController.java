@@ -82,9 +82,9 @@ public class ImageInternalRestController implements ImagesInternalApi {
     }
 
     @Override
-    public Response getAllImageInfos() {
+    public Response getAllImageInfosByWorkspaceName(String workspaceName) {
         List<ImageInfoDTO> imageInfos;
-        imageInfos = imageMapper.mapInfoList(imageInfoDAO.findAll().toList());
+        imageInfos = imageMapper.mapInfoList(imageInfoDAO.findAllByWorkspaceName(workspaceName).toList());
         return Response.ok().entity(imageInfos).build();
     }
 
