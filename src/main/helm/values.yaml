@@ -4,3 +4,10 @@ app:
     repository: "onecx/onecx-welcome-svc"
   db:
     enabled: true
+  operator:
+    keycloak:
+      client:
+        enabled: true
+        spec:
+          kcConfig:
+            defaultClientScopes: [ ocx-wc:read ]

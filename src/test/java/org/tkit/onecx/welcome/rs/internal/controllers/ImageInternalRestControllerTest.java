@@ -5,6 +5,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.tkit.onecx.welcome.rs.internal.mappers.ExceptionMapper.ErrorKeys.CONSTRAINT_VIOLATIONS;
+import static org.tkit.quarkus.security.test.SecurityTestUtils.getKeycloakClientToken;
 
 import java.io.File;
 import java.util.Objects;
@@ -12,6 +13,7 @@ import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.tkit.onecx.welcome.test.AbstractTest;
+import org.tkit.quarkus.security.test.GenerateKeycloakClient;
 import org.tkit.quarkus.test.WithDBData;
 
 import gen.org.tkit.onecx.welcome.rs.internal.model.ImageDataResponseDTO;
@@ -23,6 +25,7 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 @TestHTTPEndpoint(ImageInternalRestController.class)
 @WithDBData(value = "data/testdata-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
+@GenerateKeycloakClient(clientName = "testClient", scopes = { "ocx-wc:read", "ocx-wc:write", "ocx-wc:delete", "ocx-wc:all" })
 class ImageInternalRestControllerTest extends AbstractTest {
 
     private static final String MEDIA_TYPE_IMAGE_PNG = "image/png";
@@ -33,6 +36,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void getImageDataByIdTest() {
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .pathParam("id", "d-11-111")
                 .get("/{id}")
@@ -47,6 +51,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void getImageInfoByIdTest() {
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .pathParam("id", "11-111")
                 .get("/info/{id}")
@@ -63,6 +68,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void createImageDataTest() {
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(FILE)
                 .contentType(MEDIA_TYPE_IMAGE_PNG)
@@ -77,6 +83,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void createImageDataEmptyBodyTest() {
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .contentType(MEDIA_TYPE_IMAGE_PNG)
                 .post()
@@ -90,6 +97,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         //first create image data
         var imageData = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(FILE)
                 .contentType(MEDIA_TYPE_IMAGE_PNG)
@@ -103,6 +111,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         body.imageId(imageData.getImageId()).position("2").visible(true).workspaceName("w1");
 
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(body)
                 .contentType(APPLICATION_JSON)
@@ -116,6 +125,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         ImageInfoDTO body = new ImageInfoDTO();
         body.url("randomURl").position("2").visible(true).workspaceName("w1");
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(body)
                 .contentType(APPLICATION_JSON)
@@ -128,6 +138,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     void updateImageDataByIdTest() {
         // first get existing image
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .pathParam("id", "d-11-111")
                 .get("/{id}")
@@ -140,6 +151,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         //update the image
         var updatedImage = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(FILE)
                 .contentType(MEDIA_TYPE_IMAGE_PNG)
@@ -155,6 +167,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         //update not-existing image
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(FILE)
                 .contentType(MEDIA_TYPE_IMAGE_PNG)
@@ -168,6 +181,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     void updateImageInfoByIdTest() {
         // get image info
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .pathParam("id", "22-222")
                 .get("/info/{id}")
@@ -183,6 +197,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         updateBody.workspaceName("w1");
 
         var updatedInfo = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(updateBody)
                 .pathParam("id", "22-222")
@@ -196,6 +211,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         //update second time, optimistic lock exception
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(updateBody)
                 .pathParam("id", "22-222")
@@ -206,6 +222,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         //update not-existing image-info
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(updateBody)
                 .pathParam("id", "not-existing")
@@ -219,6 +236,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         //create new imageData first
         var data = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(FILE)
                 .contentType(MEDIA_TYPE_IMAGE_PNG)
@@ -235,6 +253,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         updateBody.workspaceName("w1");
 
         var updatedInfo = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(updateBody)
                 .pathParam("id", "11-111")
@@ -251,6 +270,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         updateBody.setImageId("not-existing");
 
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .contentType(APPLICATION_JSON)
                 .body(updateBody)
                 .pathParam("id", "11-111")
@@ -264,6 +284,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void deleteImageInfoByIdTest() {
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("id", "11-111")
                 .delete("/info/{id}")
                 .then()
@@ -272,6 +293,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         //assigned image data should be gone too
 
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("id", "d-11-111")
                 .get("/{id}")
                 .then()
@@ -279,6 +301,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
 
         //delete not-existing image-info
         given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("id", "not-existing")
                 .delete("/info/{id}")
                 .then()
@@ -288,6 +311,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
     @Test
     void getAllImageInfosByWorkspaceNameTest() {
         var output = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("workspaceName", "w1")
                 .get("/{workspaceName}/info")
                 .then()
@@ -304,6 +328,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         new Random().nextBytes(body);
 
         var exception = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(body)
                 .contentType(MEDIA_TYPE_IMAGE_PNG)
