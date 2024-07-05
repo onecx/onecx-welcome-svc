@@ -10,6 +10,8 @@ tags:
 paths:
   /internal/images/info/{id}:
     get:
+      security:
+        - oauth2: [ ocx-wc:all, ocx-wc:read ]
       tags:
         - imagesInternal
       description: get Image information by id
@@ -26,6 +28,8 @@ paths:
         "404":
           description: NOT FOUND
     put:
+      security:
+        - oauth2: [ ocx-wc:all, ocx-wc:write ]
       tags:
         - imagesInternal
       description: update Image information
@@ -52,6 +56,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
     delete:
+      security:
+        - oauth2: [ ocx-wc:all, ocx-wc:delete ]
       tags:
         - imagesInternal
       description: delete image information
@@ -65,6 +71,8 @@ paths:
           description: NOT FOUND
   /internal/images/info:
     post:
+      security:
+        - oauth2: [ ocx-wc:all, ocx-wc:write ]
       tags:
         - imagesInternal
       description: create image info
@@ -90,6 +98,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetailResponse'
   /internal/images/{workspaceName}/info:
     get:
+      security:
+        - oauth2: [ ocx-wc:all, ocx-wc:read ]
       tags:
         - imagesInternal
       description: get all existing image-infos
@@ -111,6 +121,8 @@ paths:
                   $ref: '#/components/schemas/ImageInfo'
   /internal/images:
     post:
+      security:
+        - oauth2: [ ocx-wc:all, ocx-wc:write ]
       tags:
         - imagesInternal
       description: create image
@@ -144,6 +156,8 @@ paths:
                 $ref: '#/components/schemas/ProblemDetailResponse'
   /internal/images/{id}:
     get:
+      security:
+        - oauth2: [ ocx-wc:all, ocx-wc:read ]
       tags:
         - imagesInternal
       description: get Image by id
@@ -160,6 +174,8 @@ paths:
         "404":
           description: NOT FOUND
     put:
+      security:
+        - oauth2: [ ocx-wc:all, ocx-wc:write ]
       tags:
         - imagesInternal
       description: update Image by id
@@ -193,6 +209,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
 components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://oauth.simple.api/token
+          scopes:
+            ocx-wc:all: Grants access to all operations
+            ocx-wc:read: Grants read access
+            ocx-wc:write: Grants write access
+            ocx-wc:delete: Grants access to delete operations
   schemas:
     ImageDataResponse:
       type: object
