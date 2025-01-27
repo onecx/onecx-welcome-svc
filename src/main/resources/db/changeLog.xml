@@ -5,5 +5,5 @@
 
    <include relativeToChangelogFile="true" file="v1/2024-02-16-create-tables.xml"/>
    <include relativeToChangelogFile="true" file="v1/2024-05-29-add-workspace-name.xml"/>
-
+   <include relativeToChangelogFile="true" file="v1/2025-01-27-add-css-fields.xml"/>
 </databaseChangeLog>

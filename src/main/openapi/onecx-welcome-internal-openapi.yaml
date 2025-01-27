@@ -253,6 +253,13 @@ components:
           type: string
         visible:
           type: boolean
+        objectFit:
+          type: string
+          enum: [ none, contain, cover, fill, scale-down ]
+        objectPosition:
+          type: string
+        backgroundColor:
+          type: string
         url:
           type: string
         imageId:

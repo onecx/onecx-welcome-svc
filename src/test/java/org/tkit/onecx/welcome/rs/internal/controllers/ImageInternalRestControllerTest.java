@@ -62,7 +62,7 @@ class ImageInternalRestControllerTest extends AbstractTest {
         assertThat(data).isNotNull();
         assertThat(data.getImageId()).isEqualTo("d-11-111");
         assertThat(data.getPosition()).isEqualTo("1");
-
+        assertThat(data.getObjectFit()).isEqualTo(ImageInfoDTO.ObjectFitEnum.NONE);
     }
 
     @Test
@@ -108,16 +108,20 @@ class ImageInternalRestControllerTest extends AbstractTest {
                 .body().as(ImageDataResponseDTO.class);
 
         ImageInfoDTO body = new ImageInfoDTO();
-        body.imageId(imageData.getImageId()).position("2").visible(true).workspaceName("w1");
+        body.imageId(imageData.getImageId()).position("2").visible(true).workspaceName("w1").objectPosition("top right")
+                .objectFit(ImageInfoDTO.ObjectFitEnum.COVER);
 
-        given()
+        var output = given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(body)
                 .contentType(APPLICATION_JSON)
                 .post("/info")
                 .then()
-                .statusCode(CREATED.getStatusCode());
+                .statusCode(CREATED.getStatusCode())
+                .extract().as(ImageInfoDTO.class);
+        assertThat(output.getObjectFit()).isEqualTo(ImageInfoDTO.ObjectFitEnum.COVER);
+        assertThat(output.getObjectPosition()).isEqualTo("top right");
     }
 
     @Test
