@@ -25,6 +25,16 @@ public class Image extends TraceableEntity {
     @Column(name = "POSITION")
     private Integer position;
 
+    @Column(name = "OBJECT_FIT")
+    @Enumerated(EnumType.STRING)
+    private ObjectFit objectFit;
+
+    @Column(name = "OBJECT_POSITION")
+    private String objectPosition;
+
+    @Column(name = "BACKGROUND_COLOR")
+    private String backgroundColor;
+
     @Column(name = "VISIBLE")
     private boolean visible;
 
@@ -34,4 +44,12 @@ public class Image extends TraceableEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "IMAGE_DATA")
     private ImageData imageDataId;
+
+    public enum ObjectFit {
+        NONE,
+        CONTAIN,
+        COVER,
+        FILL,
+        SCALE_DOWN
+    }
 }
