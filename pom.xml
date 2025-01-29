@@ -191,6 +191,19 @@
                         <typeMappings>File=byte[]</typeMappings>
                     </configuration>
                 </execution>
+                <execution>
+                    <id>exim</id>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                        <inputSpec>src/main/openapi/onecx-welcome-exim-v1-openapi.yaml</inputSpec>
+                        <apiPackage>gen.org.tkit.onecx.welcome.rs.exim</apiPackage>
+                        <modelPackage>gen.org.tkit.onecx.welcome.rs.exim.model</modelPackage>
+                        <modelNameSuffix>DTOV1</modelNameSuffix>
+                        <typeMappings>File=byte[]</typeMappings>
+                    </configuration>
+                </execution>
                 </executions>
             </plugin>
             <plugin>

@@ -39,7 +39,21 @@ public class ImageDAO extends AbstractDAO<Image> {
         }
     }
 
+    @Transactional
+    public void deleteAllByWorkspaceName(String workspace) {
+        try {
+            var cb = this.getEntityManager().getCriteriaBuilder();
+            var cq = this.deleteQuery();
+            var root = cq.from(Image.class);
+            cq.where(cb.equal(root.get(Image_.workspaceName), workspace));
+            getEntityManager().createQuery(cq).executeUpdate();
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_DELETE_IMAGES_BY_WORKSPACE, ex);
+        }
+    }
+
     enum ErrorKeys {
-        ERROR_FIND_IMAGE_INFO_BY_WORKSPACE
+        ERROR_FIND_IMAGE_INFO_BY_WORKSPACE,
+        ERROR_DELETE_IMAGES_BY_WORKSPACE
     }
 }

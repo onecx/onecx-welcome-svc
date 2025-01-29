@@ -1,0 +1,165 @@
+---
+openapi: 3.0.3
+info:
+  title: onecx-welcome internal api
+  version: 1.0.0
+servers:
+  - url: "http://onecx-welcome-svc:8080"
+tags:
+  - name: imagesExportImport
+paths:
+  /exim/v1/images/{workspaceName}/import:
+    post:
+      security:
+        - oauth2: [ ocx-wc:write ]
+      tags:
+        - imagesExportImport
+      description: import images
+      operationId: importImages
+      parameters:
+        - in: path
+          name: workspaceName
+          schema:
+            type: string
+          required: true
+          description: target workspace for import
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WelcomeSnapshot'
+      responses:
+        "200":
+          description: Import successful
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EximProblemDetailResponse'
+  /exim/v1/images/export:
+    post:
+      security:
+        - oauth2: [ ocx-wc:read ]
+      tags:
+        - imagesExportImport
+      description: export images
+      operationId: exportImages
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportWelcomeRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WelcomeSnapshot'
+        "404":
+          description: No images found
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://oauth.simple.api/token
+          scopes:
+            ocx-wc:read: Grants read access
+            ocx-wc:write: Grants write access
+  schemas:
+    ImageData:
+      type: object
+      properties:
+        imageId:
+          type: string
+        imageData:
+          type: string
+          format: binary
+        dataLength:
+          type: integer
+        mimeType:
+          type: string
+    ImageInfo:
+      required:
+        - workspaceName
+      type: object
+      properties:
+        position:
+          type: string
+        visible:
+          type: boolean
+        objectFit:
+          type: string
+          enum: [ none, contain, cover, fill, scale-down ]
+        objectPosition:
+          type: string
+        backgroundColor:
+          type: string
+        url:
+          type: string
+        imageId:
+          type: string
+    OffsetDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50-04:00
+    WelcomeSnapshot:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 10
+          description: ID of the request
+        created:
+          $ref: '#/components/schemas/OffsetDateTime'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/EximImage'
+    EximImage:
+      type: object
+      nullable: false
+      properties:
+        image:
+          $ref: '#/components/schemas/ImageInfo'
+        imageData:
+          $ref: '#/components/schemas/ImageData'
+    ExportWelcomeRequest:
+      type: object
+      properties:
+        workspaceName:
+          type: string
+    EximProblemDetailResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        detail:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/EximProblemDetailParam'
+        invalidParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/EximProblemDetailInvalidParam'
+    EximProblemDetailParam:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    EximProblemDetailInvalidParam:
+      type: object
+      properties:
+        name:
+          type: string
+        message:
+          type: string
