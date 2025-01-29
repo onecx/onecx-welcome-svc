@@ -20,9 +20,7 @@ public interface ExportImportMapperV1 {
     default WelcomeSnapshotDTOV1 map(List<Image> images) {
         WelcomeSnapshotDTOV1 snapshot = new WelcomeSnapshotDTOV1();
         List<EximImageDTOV1> imageList = new ArrayList<>();
-        images.forEach(image -> {
-            imageList.add(mapExim(image));
-        });
+        images.forEach(image -> imageList.add(mapExim(image)));
         snapshot.setImages(imageList);
         snapshot.setId(UUID.randomUUID().toString());
         snapshot.setCreated(OffsetDateTime.now());
