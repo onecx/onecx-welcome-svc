@@ -17,5 +17,7 @@ class ImageDAOTest extends AbstractDAOTest {
     void methodExceptionTests() {
         methodExceptionTests(() -> dao.findAllByWorkspaceName(null),
                 ImageDAO.ErrorKeys.ERROR_FIND_IMAGE_INFO_BY_WORKSPACE);
+        methodExceptionTests(() -> dao.deleteAllByWorkspaceName(null),
+                ImageDAO.ErrorKeys.ERROR_DELETE_IMAGES_BY_WORKSPACE);
     }
 }
