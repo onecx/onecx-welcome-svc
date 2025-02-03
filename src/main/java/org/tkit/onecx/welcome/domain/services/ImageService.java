@@ -31,7 +31,7 @@ public class ImageService {
     @Transactional
     public void importSnapshot(WelcomeSnapshotDTOV1 welcomeSnapshotDTOV1, String workspace) {
         imageDAO.deleteAllByWorkspaceName(workspace);
-        welcomeSnapshotDTOV1.getImages().forEach(eximImageDTOV1 -> {
+        welcomeSnapshotDTOV1.getConfig().getImages().forEach(eximImageDTOV1 -> {
             ImageData createdData = null;
             if (eximImageDTOV1.getImageData() != null) {
                 var imageDataToCreate = eximMapper.mapToData(eximImageDTOV1.getImageData());
