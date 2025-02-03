@@ -37,7 +37,7 @@ class ImageEximRestControllerV1Test extends AbstractTest {
                 .extract().as(WelcomeSnapshotDTOV1.class);
 
         assertThat(data).isNotNull();
-        assertThat(data.getImages()).hasSize(2);
+        assertThat(data.getConfig().getImages()).hasSize(2);
 
         //import and overwrite in same workspace
         given()
