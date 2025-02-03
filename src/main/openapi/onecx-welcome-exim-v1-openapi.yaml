@@ -117,6 +117,11 @@ components:
           description: ID of the request
         created:
           $ref: '#/components/schemas/OffsetDateTime'
+        config:
+          $ref: '#/components/schemas/WelcomeConfig'
+    WelcomeConfig:
+      type: object
+      properties:
         images:
           type: array
           items:
