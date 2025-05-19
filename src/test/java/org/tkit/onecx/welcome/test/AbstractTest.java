@@ -7,10 +7,17 @@ import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import io.quarkus.test.keycloak.client.KeycloakTestClient;
 import io.restassured.config.RestAssuredConfig;
 
 @SuppressWarnings("java:S2187")
 public class AbstractTest {
+
+    KeycloakTestClient keycloakClient = new KeycloakTestClient();
+
+    protected String getKeycloakClientToken(String clientId) {
+        return keycloakClient.getClientAccessToken(clientId);
+    }
 
     static {
         config = RestAssuredConfig.config().objectMapperConfig(
