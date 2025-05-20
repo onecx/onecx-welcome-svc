@@ -25,6 +25,7 @@ quarkus.liquibase.migrate-at-start=true
 quarkus.liquibase.validate-on-migrate=true
 tkit.log.json.enabled=true
 tkit.rs.context.tenant-id.enabled=true
+%prod.quarkus.oidc-client.client-id=${quarkus.application.name}
 %prod.quarkus.datasource.jdbc.url=${DB_URL:jdbc:postgresql://postgresdb:5432/onecx-welcome?sslmode=disable}
 %prod.quarkus.datasource.username=${DB_USER:onecx-welcome}
 %prod.quarkus.datasource.password=${DB_PWD:onecx-welcome}
