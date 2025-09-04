@@ -1,12 +1,14 @@
 ---
 openapi: 3.0.3
 info:
-  title: onecx-welcome internal api
+  title: onecx-welcome internal service
+  description: This API provides endpoints to manage Welcome page Images
   version: 1.0.0
 servers:
   - url: "http://onecx-welcome-svc:8080"
 tags:
   - name: imagesInternal
+    description: Managing Welcome page Images
 paths:
   /internal/images/info/{id}:
     get:
@@ -14,25 +16,25 @@ paths:
         - oauth2: [ ocx-wc:all, ocx-wc:read ]
       tags:
         - imagesInternal
-      description: get Image information by id
+      description: Get image information by its id
       operationId: getImageInfoById
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
         "200":
-          description: OK
+          description: Image information retrieved successfully
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ImageInfo"
         "404":
-          description: NOT FOUND
+          description: Image information not found
     put:
       security:
         - oauth2: [ ocx-wc:all, ocx-wc:write ]
       tags:
         - imagesInternal
-      description: update Image information
+      description: Update image information by its id
       operationId: updateImageInfo
       parameters:
         - $ref: '#/components/parameters/id'
@@ -44,13 +46,13 @@ paths:
               $ref: '#/components/schemas/ImageInfo'
       responses:
         "200":
-          description: UPDATED
+          description: Image information updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageInfo'
         "400":
-          description: BAD REQUEST
+          description: Bad request
           content:
             application/json:
               schema:
@@ -60,22 +62,22 @@ paths:
         - oauth2: [ ocx-wc:all, ocx-wc:delete ]
       tags:
         - imagesInternal
-      description: delete image information
+      description: Delete image information by its id
       operationId: deleteImageInfoById
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
         "204":
-          description: DELETED
+          description: Image information deleted successfully
         "404":
-          description: NOT FOUND
+          description: Image information not found
   /internal/images/info:
     post:
       security:
         - oauth2: [ ocx-wc:all, ocx-wc:write ]
       tags:
         - imagesInternal
-      description: create image info
+      description: Create image information
       operationId: createImageInfo
       requestBody:
         required: true
@@ -85,13 +87,13 @@ paths:
               $ref: '#/components/schemas/ImageInfo'
       responses:
         "201":
-          description: CREATED
+          description: Image information created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageInfo'
         "400":
-          description: BAD REQUEST
+          description: Bad request
           content:
             application/json:
               schema:
@@ -102,7 +104,7 @@ paths:
         - oauth2: [ ocx-wc:all, ocx-wc:read ]
       tags:
         - imagesInternal
-      description: get all existing image-infos
+      description: Get all existing image information of a specific workspace by its name
       operationId: getAllImageInfosByWorkspaceName
       parameters:
         - in: path
@@ -112,7 +114,7 @@ paths:
           required: true
       responses:
         "200":
-          description: OK
+          description: Image information retrieved successfully
           content:
             application/json:
               schema:
@@ -125,7 +127,7 @@ paths:
         - oauth2: [ ocx-wc:all, ocx-wc:write ]
       tags:
         - imagesInternal
-      description: create image
+      description: Create a new image
       operationId: createImage
       parameters:
         - in: header
@@ -143,13 +145,13 @@ paths:
               format: binary
       responses:
         "201":
-          description: CREATED
+          description: Image created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageDataResponse'
         "400":
-          description: BAD REQUEST
+          description: Bad request
           content:
             application/json:
               schema:
@@ -160,25 +162,25 @@ paths:
         - oauth2: [ ocx-wc:all, ocx-wc:read ]
       tags:
         - imagesInternal
-      description: get Image by id
+      description: Get an image by its id
       operationId: getImageById
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
         "200":
-          description: OK
+          description: Image retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageDataResponse'
         "404":
-          description: NOT FOUND
+          description: Image not found
     put:
       security:
         - oauth2: [ ocx-wc:all, ocx-wc:write ]
       tags:
         - imagesInternal
-      description: update Image by id
+      description: Update an image by its id
       operationId: updateImageById
       parameters:
         - $ref: '#/components/parameters/id'
@@ -197,13 +199,13 @@ paths:
               format: binary
       responses:
         "200":
-          description: OK
+          description: Image updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageDataResponse'
         "400":
-          description: BAD REQUEST
+          description: Bad request
           content:
             application/json:
               schema:

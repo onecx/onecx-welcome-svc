@@ -180,7 +180,7 @@
                         <goal>generate</goal>
                     </goals>
                     <configuration>
-                        <inputSpec>src/main/openapi/onecx-welcome-internal-openapi.yaml</inputSpec>
+                        <inputSpec>src/main/openapi/onecx-welcome-internal.yaml</inputSpec>
                         <apiPackage>gen.org.tkit.onecx.welcome.rs.internal</apiPackage>
                         <modelPackage>gen.org.tkit.onecx.welcome.rs.internal.model</modelPackage>
                         <modelNameSuffix>DTO</modelNameSuffix>
@@ -193,7 +193,7 @@
                         <goal>generate</goal>
                     </goals>
                     <configuration>
-                        <inputSpec>src/main/openapi/onecx-welcome-exim-v1-openapi.yaml</inputSpec>
+                        <inputSpec>src/main/openapi/onecx-welcome-exim-v1.yaml</inputSpec>
                         <apiPackage>gen.org.tkit.onecx.welcome.rs.exim</apiPackage>
                         <modelPackage>gen.org.tkit.onecx.welcome.rs.exim.model</modelPackage>
                         <modelNameSuffix>DTOV1</modelNameSuffix>

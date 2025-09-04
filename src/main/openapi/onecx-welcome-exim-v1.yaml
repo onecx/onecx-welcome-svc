@@ -1,12 +1,14 @@
 ---
 openapi: 3.0.3
 info:
-  title: onecx-welcome internal api
+  title: onecx-welcome export and import service V1
+  description: This API provides endpoints to export and import Welcome Images
   version: 1.0.0
 servers:
   - url: "http://onecx-welcome-svc:8080"
 tags:
   - name: imagesExportImport
+    description: Exporting and Importing Welcome Images
 paths:
   /exim/v1/images/{workspaceName}/import:
     post:
@@ -14,7 +16,7 @@ paths:
         - oauth2: [ ocx-wc:write ]
       tags:
         - imagesExportImport
-      description: import images
+      description: Import images
       operationId: importImages
       parameters:
         - in: path
@@ -31,7 +33,7 @@ paths:
               $ref: '#/components/schemas/WelcomeSnapshot'
       responses:
         "200":
-          description: Import successful
+          description: Imported images successfully
         "400":
           description: Bad request
           content:
@@ -44,7 +46,7 @@ paths:
         - oauth2: [ ocx-wc:read ]
       tags:
         - imagesExportImport
-      description: export images
+      description: Export images
       operationId: exportImages
       requestBody:
         required: true
@@ -54,13 +56,13 @@ paths:
               $ref: '#/components/schemas/ExportWelcomeRequest'
       responses:
         "200":
-          description: OK
+          description: Exported images successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/WelcomeSnapshot'
         "404":
-          description: No images found
+          description: Images not found
 components:
   securitySchemes:
     oauth2:
