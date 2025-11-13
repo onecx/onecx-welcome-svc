@@ -1,2 +1,2 @@
 # onecx-welcome-svc
-OneCX Welcome Management Service
+OneCX Welcome Service
