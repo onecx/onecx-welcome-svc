@@ -1,1 +1,0 @@
-* xref:onecx-welcome-svc:index.adoc[Welcome Backend Service]
