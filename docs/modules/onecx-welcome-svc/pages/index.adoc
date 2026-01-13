@@ -1,8 +1,7 @@
 include::onecx-welcome-svc-attributes.adoc[opts=optional]
 
-== onecx-welcome-svc
+= OneCX Welcome Backend Service
 
-include::docs.adoc[opts=optional]
 
 
 include::onecx-welcome-svc-docs.adoc[opts=optional]
