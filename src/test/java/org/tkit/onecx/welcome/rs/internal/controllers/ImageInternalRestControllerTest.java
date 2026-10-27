@@ -23,7 +23,7 @@ import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 @TestHTTPEndpoint(ImageInternalRestController.class)
-@WithDBData(value = "data/testdata-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
+@WithDBData(value = "data/testdata-internal.xml", deleteBeforeInsert = true, rinseAndRepeat = true)
 @GenerateKeycloakClient(clientName = "testClient", scopes = { "ocx-wc:read", "ocx-wc:write", "ocx-wc:delete", "ocx-wc:all" })
 class ImageInternalRestControllerTest extends AbstractTest {
 
